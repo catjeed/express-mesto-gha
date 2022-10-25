@@ -21,15 +21,21 @@ module.exports.createUser = (req, res) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  User.findById(req.params._id)
+  User.findById(req.params.userId)
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'Запрашиваемый пользователь не найден' });
+        res.status(404).send({ message: `Пользователь с id ${req.params.userId} не найден` });
       } else {
         res.status(200).send({ data: user });
       }
     })
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка на сервере' }));
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: `Что-то пошло не так! ${err.name}: ${err.message}` });
+      } else {
+        res.status(500).send({ message: 'Произошла ошибка на сервере' });
+      }
+    });
 };
 
 module.exports.updateProfile = () => {};
