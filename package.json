@@ -1,7 +1,7 @@
 {
   "name": "mesto-backend13",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for 'Mesto' training project from Yandex.Practicum",
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
@@ -9,7 +9,7 @@
     "dev": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Efremov Andrew",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.26.0",
