@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 const express = require('express');
 const mongoose = require('mongoose');
+const { BAD_REQUEST } = require('./constants');
 const cardsRouter = require('./routes/cards');
 const userRouter = require('./routes/users');
 
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 
 app.use('/users', userRouter);
 app.use('/cards', cardsRouter);
-app.use('/*', (req, res) => res.status(404).send({ message: 'Проверьте адрес запроса' }));
+app.use('/*', (req, res) => res.status(BAD_REQUEST).send({ message: 'Проверьте адрес запроса' }));
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

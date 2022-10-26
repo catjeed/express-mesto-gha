@@ -1,11 +1,12 @@
-/* eslint-disable no-unused-vars */
+const mongoose = require('mongoose');
 const Card = require('../models/card');
+const { BAD_REQUEST, NOT_FOUND, DEFAULT_ERROR } = require('../constants');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
-    .then((card) => res.status(200).send(card))
+    .then((card) => res.send(card))
     .catch(() => {
-      res.status(500).send({ message: 'Произошла ошибка на сервере' });
+      res.status(DEFAULT_ERROR).send({ message: 'Произошла ошибка на сервере' });
     });
 };
 
@@ -14,12 +15,12 @@ module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner })
-    .then((card) => res.status(200).send(card))
+    .then((card) => res.send(card))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Переданы некорректные данные в методы создания карточки' });
+      if (err instanceof mongoose.Error.ValidationError) {
+        res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные в методы создания карточки' });
       } else {
-        res.status(500).send({ message: 'Произошла ошибка на сервере' });
+        res.status(DEFAULT_ERROR).send({ message: 'Произошла ошибка на сервере' });
       }
     });
 };
@@ -28,15 +29,15 @@ module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
       if (!card) {
-        return res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
+        return res.status(NOT_FOUND).send({ message: `Нет карточки с id ${req.params.cardId}` });
       }
-      return res.status(200).send({ message: `Карточка с id ${req.params.cardId} удалена ` });
+      return res.send({ message: `Карточка с id ${req.params.cardId} удалена ` });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Некорректно указан id' });
+      if (err instanceof mongoose.Error.CastError) {
+        return res.status(BAD_REQUEST).send({ message: 'Некорректно указан id' });
       }
-      return res.status(500).send({ message: 'Произошла ошибка на сервере' });
+      return res.status(DEFAULT_ERROR).send({ message: 'Произошла ошибка на сервере' });
     });
 };
 
@@ -48,15 +49,15 @@ module.exports.likeCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        return res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
+        return res.status(NOT_FOUND).send({ message: `Нет карточки с id ${req.params.cardId}` });
       }
-      return res.status(200).send({ data: card });
+      return res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Некорректно указан id' });
+      if (err instanceof mongoose.Error.CastError) {
+        return res.status(BAD_REQUEST).send({ message: 'Некорректно указан id' });
       }
-      return res.status(500).send({ message: 'Произошла ошибка на сервере' });
+      return res.status(DEFAULT_ERROR).send({ message: 'Произошла ошибка на сервере' });
     });
 };
 
@@ -68,14 +69,14 @@ module.exports.dislikeCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        return res.status(404).send({ message: `Нет карточки с id ${req.params.cardId}` });
+        return res.status(NOT_FOUND).send({ message: `Нет карточки с id ${req.params.cardId}` });
       }
-      return res.status(200).send({ data: card });
+      return res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: 'Некорректно указан id' });
+      if (err instanceof mongoose.Error.CastError) {
+        return res.status(BAD_REQUEST).send({ message: 'Некорректно указан id' });
       }
-      return res.status(500).send({ message: 'Произошла ошибка на сервере' });
+      return res.status(DEFAULT_ERROR).send({ message: 'Произошла ошибка на сервере' });
     });
 };

@@ -1,6 +1,7 @@
 [![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
 # Проект Mesto фронтенд + бэкенд
-
+Учебный проект Я.Практикума курса "ВЕБ-разработчик" по созданию бэкенда, работе с базами данных и тестированию.
+[Ссылка на репозторий](https://github.com/catjeed/express-mesto-gha)
 
 ## Директории
 
